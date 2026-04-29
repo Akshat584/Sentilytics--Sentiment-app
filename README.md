@@ -147,5 +147,5 @@ export const predictProductHealth = (sentiments: SentimentData[]): PredictionRes
 
 ---
 
-View your app in AI Studio: [https://ai.studio/apps/d5044590-dc90-4d9d-8398-cd64b4f4a3f6](https://ai.studio/apps/d5044590-dc90-4d9d-8398-cd64b4f4a3f6)
+
 # Sentilytics--Sentiment-app
