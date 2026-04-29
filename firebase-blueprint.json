@@ -1,0 +1,98 @@
+{
+  "entities": {
+    "Profile": {
+      "title": "User Profile",
+      "description": "Extended user information linked to Firebase Auth UID",
+      "type": "object",
+      "properties": {
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["displayName", "email", "role"]
+    },
+    "Company": {
+      "title": "Company",
+      "description": "A company being tracked for sentiment",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "industry": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "A product belonging to a company",
+      "type": "object",
+      "properties": {
+        "companyId": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["companyId", "name"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A raw review text",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "productId": { "type": "string" },
+        "reviewText": { "type": "string" },
+        "source": { "type": "string", "enum": ["manual", "csv", "api"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "reviewText", "createdAt"]
+    },
+    "Sentiment": {
+      "title": "Sentiment Analysis",
+      "description": "AI processed sentiment data for a review",
+      "type": "object",
+      "properties": {
+        "reviewId": { "type": "string" },
+        "productId": { "type": "string" },
+        "companyId": { "type": "string" },
+        "overallSentiment": { "type": "string", "enum": ["positive", "neutral", "negative"] },
+        "categorySentiments": {
+          "type": "object",
+          "description": "Sentiment per category (price, quality, etc.)"
+        },
+        "confidenceScores": {
+          "type": "object",
+          "description": "Confidence per category"
+        },
+        "score": { "type": "number", "description": "Normalized score from -1 to 1" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reviewId", "productId", "overallSentiment", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": "Profile",
+      "description": "User profile data"
+    },
+    "/companies/{companyId}": {
+      "schema": "Company",
+      "description": "Company data"
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Product data"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Raw reviews"
+    },
+    "/sentiments/{sentimentId}": {
+      "schema": "Sentiment",
+      "description": "Processed sentiment data"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Require authentication for all main collections
+    match /products/{docId} {
+      allow read, write: if request.auth != null;
+    }
+    match /sentiments/{docId} {
+      allow read, write: if request.auth != null;
+    }
+    match /companies/{docId} {
+      allow read, write: if request.auth != null;
+    }
+    match /reviews/{docId} {
+      allow read, write: if request.auth != null;
+    }
+    match /alerts/{docId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Profiles require authentication and matching UID
+    match /profiles/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Default deny for everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
